@@ -1,7 +1,7 @@
 templates:
   - from: generic.tmpl
     render:
-      - to: ../../prow/jobs/api-gateway/api-gateway-validation.yaml
+      - to: ../../prow/jobs/istio/istio-validation.yaml
         localSets:
           linting:
             skip_report: "false"
@@ -24,14 +24,14 @@ templates:
             request_memory: 1Gi
             request_cpu: 500m
         jobConfigs:
-          - repoName: "kyma-project/api-gateway"
+          - repoName: "kyma-project/istio"
             jobs:
               - jobConfig:
-                  name: pull-api-gateway-lint
+                  name: pull-istio-sidecars-lint
                   command: "/bin/sh"
                   args:
                     - "-c"
-                    - "golangci-lint run --new-from-rev=$PULL_BASE_SHA ./... --timeout=10m -v --out-format html > ${ARTIFACTS}/report-golangci-lint.html"
+                    - "cd operator/pkg/lib/sidecars && golangci-lint run --new-from-rev=$PULL_BASE_SHA ./... --timeout=10m -v --out-format html > ${ARTIFACTS}/report-golangci-lint.html"
                   always_run: true
                 inheritedConfigs:
                   global:
@@ -39,11 +39,12 @@ templates:
                   local:
                     - linting
               - jobConfig:
-                  name: pull-api-gateway-test
-                  always_run: true
-                  command: "make"
+                  name: pull-istio-sidecars-component-test
+                  run_if_changed: "^operator/pkg/lib/sidecars"
+                  command: "/bin/sh"
                   args:
-                    - "test"
+                    - "-c"
+                    - "cd operator/pkg/lib/sidecars/test && EXPORT_RESULTS=true make test"
                 inheritedConfigs:
                   global:
                     - jobConfig_presubmit
