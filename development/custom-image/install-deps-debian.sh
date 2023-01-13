@@ -38,7 +38,9 @@ sudo apt-get install -y \
      build-essential \
      conntrack \
      software-properties-common \
-     postgresql-client-13
+     postgresql-client-13 \
+     pkg-config \
+     libgit2-dev
 
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
