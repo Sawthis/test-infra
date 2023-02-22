@@ -16,7 +16,7 @@ function prereq_test() {
 
 print_logs() {
   echo "Printing telemetry-operator logs"
-  kubectl logs --tail=-1 -l control-plane=telemetry-operator -n kyma-system -c manager
+  kubectl logs --tail=-1 -l control-plane=telemetry-operator -n kyma-system -c manager || true  ### Workaround: not failing the job regardless of the command result
 }
 
 trap print_logs EXIT SIGINT
@@ -79,9 +79,6 @@ function deploy_kyma() {
   deploy="kyma deploy -p evaluation"
   deploy_dryrun="kyma deploy --dry-run  -p production"
 
-  ls ${KYMA_SOURCES_DIR}/components/telemetry-operator/config/crd/
-  echo "Copy tracepipeline CRD"
-  cp ${KYMA_SOURCES_DIR}/components/telemetry-operator/config/crd/bases/telemetry.kyma-project.io_tracepipelines.yaml ${KYMA_SOURCES_DIR}/installation/resources/crds/telemetry/tracepipelines.crd.yaml
 
   deploy+="$deploy_commands"
   deploy_dryrun+="$deploy_commands"
