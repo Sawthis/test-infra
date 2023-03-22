@@ -1,11 +1,17 @@
 resource "google_service_account" "gcs_bucket_mover" {
-  account_id  = "gcs-bucket-mover-cr"
+  account_id  = "gcs-bucket-mover"
   description = "Identity of cloud run instance running gcs bucket mover service."
 }
 
 resource "google_storage_bucket_iam_member" "kyma_prow_logs_viewer" {
   bucket = data.google_storage_bucket.kyma_prow_logs.name
   role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${google_service_account.gcs_bucket_mover.email}"
+}
+
+resource "google_storage_bucket_iam_member" "kyma_prow_logs_object_admin" {
+  bucket = data.google_storage_bucket.kyma_prow_logs.name
+  role   = "roles/storage.objectAdmin"
   member = "serviceAccount:${google_service_account.gcs_bucket_mover.email}"
 }
 
@@ -41,7 +47,7 @@ resource "google_cloud_run_service" "gcs_bucket_mover" {
     spec {
       service_account_name = google_service_account.gcs_bucket_mover.email
       containers {
-        image = "europe-docker.pkg.dev/kyma-project/prod/test-infra/movegcsbucket:v20230202-40569193"
+        image = "europe-docker.pkg.dev/kyma-project/prod/test-infra/movegcsbucket:v20230309-1d421c4f"
         env {
           name  = "PROJECT_ID"
           value = var.gcp_project_id
@@ -60,7 +66,11 @@ resource "google_cloud_run_service" "gcs_bucket_mover" {
         }
         env {
           name  = "DST_BUCKET_NAME"
-          value = "dev-prow-logs-secured"
+          value = google_storage_bucket.kyma_prow_logs_secured.name
+        }
+        env {
+          name  = "DRY_RUN"
+          value = "true"
         }
       }
     }
@@ -74,6 +84,7 @@ resource "google_cloud_run_service_iam_policy" "gcs_bucket_mover" {
 
   policy_data = data.google_iam_policy.run_invoker.policy_data
 }
+
 resource "google_monitoring_alert_policy" "gcs_bucket_mover" {
   combiner     = "OR"
   display_name = "gcs-bucket-mover-error-logged"
@@ -86,9 +97,9 @@ resource "google_monitoring_alert_policy" "gcs_bucket_mover" {
   notification_channels = ["projects/${var.gcp_project_id}/notificationChannels/5909844679104799956"]
   alert_strategy {
     notification_rate_limit {
-      period = "6 hr"
+      period = "21600s"
     }
-    auto_close = "4 days"
+    auto_close = "345600s"
   }
   user_labels = {
     component = "gcs-bucket-mover"

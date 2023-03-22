@@ -34,6 +34,8 @@
 
 [Rotate service account secrets](/development/secrets-rotator/cloud-run/rotate-service-account/README.md) - RotateServiceAccount creates a new key for a GCP service account and updates the required secret data. It's triggered by a  Pub/Sub message sent by a secret stored in Secret Manager. It runs as a cloud run container.
 
+[Cleanup of service account secrets](/development/secrets-rotator/cloud-run/service-account-keys-cleaner/README.md) - The Cloud Run service deletes old keys for a GCP service account and updates the required secret data for all service account secrets stored in the Secret Manager. The service is triggered by a Cloud Scheduler job.
+
 [Test Log Collector](/development/test-log-collector/README.md) - The purpose of the Test Log Collector is to gather logs from the testing Pods and to send them to the appropriate Slack channels.
 
 [Octopus Types](/development/test-log-collector/pkg/resources/clustertestsuite/types/README.md) - Types in that package has been copied from https://github.com/kyma-incubator/octopus/tree/master/pkg/apis/testing/v1alpha1 in order to solve problems with older dependencies in `octopus` project.
@@ -80,6 +82,10 @@
 
 [Documentation guidelines](/docs/documentation_guidelines.md) - 1. Each repository must contain an automatically updated index page in `docs` directory.
 
+[Documentation](/docs/how-to/ado/README.md) - The folder contains documents that provide an insight into Azure DevOps (ADO) configuration, development, and testing.
+
+[GitHub.com and Azure Pipeline (ADO) integration](/docs/how-to/ado/how-to_integrate-githubcom-azurepipeline.md) - We have to verify that the integration of an SAP Azure DevopsPipeline as a quality gate for github.com works.
+
 [Add custom secret to Prow](/docs/how-to/how-to-add-custom-secret.md) - This tutorial shows how to add a custom secret and use it in the Prow pipeline.
 
 [Use Tekton Pipelines with Prow](/docs/how-to/how-to_use_tekton-pipelines-in-prow.md) - Kyma Prow instance supports defining and using Tekton Pipelines as a workload. This gives the developer the ability to use
@@ -89,6 +95,8 @@
 [Authorization](/docs/prow/authorization.md) - To deploy a Prow cluster, configure the following service accounts in the GCP project you own.
 
 [Crier](/docs/prow/crier.md) - Crier reports the Prow Job status changes. For now, it is responsible for Slack notifications as Plank is still reporting the Prow Job statuses to GitHub.
+
+[Run K3d cluster inside ProwJobs](/docs/prow/k3d-no-ssh.md) - This document provides simple instructions, with examples, on how to prepare a ProwJob to use a K3d cluster and Docker.
 
 [Label_sync](/docs/prow/label_sync.md) - Label_sync updates or migrates GitHub labels on repositories in a GitHub organisation based on a YAML file. It is triggered as a `ci-prow-label-sync` Prow job.
 
