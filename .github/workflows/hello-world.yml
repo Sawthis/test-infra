@@ -1,4 +1,6 @@
-on: [pull_request_target]
+on:
+  pull_request_target:
+    types: [ opened, edited, synchronize, reopened, ready_for_review ]
 
 jobs:
   hello_world_job:
