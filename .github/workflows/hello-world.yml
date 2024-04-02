@@ -8,7 +8,7 @@ jobs:
       id-token: write # This is required for requesting the JWT token
       contents: read  # This is required for actions/checkout
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: A job to get OIDC token and say hello
     steps:
       - name: Checkout actions-oidc-debugger
         uses: actions/checkout@v4
@@ -20,10 +20,6 @@ jobs:
         uses: ./.github/actions/actions-oidc-debugger
         with:
           audience: 'https://github.com/github'
-      - uses: Sawthis/expose-jwt-action@main
-        name: Get JWT token
-      - name: Dump JWT token
-        run: echo "$JWT"
       # To use this repository's private action,
       # you must check out the repository
       - name: Checkout
