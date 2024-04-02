@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: Sawthis/expose-jwt-action@main
         name: Get JWT token
+      - name: Dump JWT token
+        run: echo "$JWT"
       # To use this repository's private action,
       # you must check out the repository
       - name: Checkout
