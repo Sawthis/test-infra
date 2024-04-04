@@ -12,20 +12,17 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Set Greeting
-      run: echo "audience $INPUT_AUDIENCE."
-      shell: bash
-      env:
-        INPUT_AUDIENCE: ${{ inputs.audience}}
     - name: Checkout
       uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
         node-version: 20
     - run: |
+        echo "audience in bash $INPUT_AUDIENCE."
         cd .github/actions/expose-jwt-action
         npm init -y
         npm install @actions/core
-        npm install @actions/github
         node index.js
       shell: bash
+      env:
+        INPUT_AUDIENCE: ${{ inputs.audience }}
