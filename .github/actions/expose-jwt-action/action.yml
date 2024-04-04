@@ -23,6 +23,7 @@ runs:
       with:
         node-version: 20
     - run: cd .github/actions/expose-jwt-action
+      shell: bash
     - run: npm init -y
       shell: bash
     - run: npm install @actions/core
