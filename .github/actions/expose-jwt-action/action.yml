@@ -17,9 +17,12 @@ runs:
       shell: bash
       env:
         INPUT_AUDIENCE: ${{ inputs.audience}}
+    - name: Checkout
+      uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
         node-version: 20
+    - run: cd .github/actions/expose-jwt-action
     - run: npm init -y
       shell: bash
     - run: npm install @actions/core
