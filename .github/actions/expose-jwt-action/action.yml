@@ -8,24 +8,6 @@ inputs:
 outputs:
   jwt: # id of output
     description: 'The signed JWT ID Token'
-    value: ${{ steps.expose-jwt.outputs.jwt }}
 runs:
-  using: "composite"
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
-    - run: |
-        echo "audience in bash $INPUT_AUDIENCE."
-        cd .github/actions/expose-jwt-action
-        npm init -y
-        npm install @actions/core
-      shell: bash
-      env:
-        INPUT_AUDIENCE: ${{ inputs.audience }}
-   - uses: .github/actions/expose-jwt-action
-     id: expose-jwt
-   - run: echo "JWT in bash $UTPUT_JWT."
-     shell: bash
+  using: 'node20'
+  main: 'index.js'
