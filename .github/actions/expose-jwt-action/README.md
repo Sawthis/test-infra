@@ -18,17 +18,13 @@ The JWT signed by GitHub Action.
 
 ## Example Usage
 ```yaml
+# To use this repository's private action,
+# you must check out the repository
 - name: Checkout
-  uses: actions/checkout@v4
-- uses: actions/setup-node@v4
-  with:
-    node-version: 20
-- run: cd .github/actions/expose-jwt-action
-- run: npm init -y
-- run: npm install @actions/core
-- run: npm install @actions/github
+uses: actions/checkout@v4
+# This action is used to expose the JWT token from the OIDC provider and set is as an output and an environment variable
 - uses: ./.github/actions/expose-jwt-action
-  name: Get JWT token
-  with:
-    audience: 'https://github.com/github'
+name: Expose JWT token
+with:
+    audience: 'sts.amazonaws.com'
 ```
