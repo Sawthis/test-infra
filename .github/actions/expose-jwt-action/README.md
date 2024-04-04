@@ -22,6 +22,9 @@ The JWT signed by GitHub Action.
 # you must check out the repository
 - name: Checkout
 uses: actions/checkout@v4
+# Install Node.js and needed dependencies
+- uses: ./.github/actions/expose-jwt-action/install
+name: Install expose-jwt-action
 # This action is used to expose the JWT token from the OIDC provider and set is as an output and an environment variable
 - uses: ./.github/actions/expose-jwt-action
 name: Expose JWT token
