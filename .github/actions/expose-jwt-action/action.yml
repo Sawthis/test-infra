@@ -8,7 +8,7 @@ inputs:
 outputs:
   jwt: # id of output
     description: 'The signed JWT ID Token'
-    value: ${{ steps.random-number-generator.outputs.random-number }}
+    value: ${{ steps.expose-jwt.outputs.jwt }}
 runs:
   using: "composite"
   steps:
@@ -22,7 +22,10 @@ runs:
         cd .github/actions/expose-jwt-action
         npm init -y
         npm install @actions/core
-        node index.js
       shell: bash
       env:
         INPUT_AUDIENCE: ${{ inputs.audience }}
+   - uses: .github/actions/expose-jwt-action
+     id: expose-jwt
+   - run: echo "JWT in bash $UTPUT_JWT."
+     shell: bash
