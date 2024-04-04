@@ -1,0 +1,30 @@
+name: 'Expose GitHub JWT'
+description: 'Exposes the JWT Token from GitHub Actions'
+inputs:
+  audience:  # id of input
+    description: 'The audience field in the JWT'
+    required: false
+    default: ''
+outputs:
+  jwt: # id of output
+    description: 'The signed JWT ID Token'
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+runs:
+  using: "composite"
+  steps:
+    - name: Set Greeting
+      run: echo "audience $INPUT_AUDIENCE."
+      shell: bash
+      env:
+        INPUT_AUDIENCE: ${{ inputs.audience}}
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - run: npm init -y
+      shell: bash
+    - run: npm install @actions/core
+      shell: bash
+    - run: npm install @actions/github
+      shell: bash
+    - run: node index.js
+      shell: bash
