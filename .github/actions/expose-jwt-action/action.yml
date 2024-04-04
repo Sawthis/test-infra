@@ -22,15 +22,10 @@ runs:
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-    - run: cd .github/actions/expose-jwt-action
-      shell: bash
-    - run: npm init -y
-      shell: bash
-    - run: npm install @actions/core
-      shell: bash
-    - run: npm install @actions/github
-      shell: bash
-    - run: ls
-      shell: bash
-    - run: node index.js
+    - run: |
+        cd .github/actions/expose-jwt-action
+        npm init -y
+        npm install @actions/core
+        npm install @actions/github
+        node index.js
       shell: bash
