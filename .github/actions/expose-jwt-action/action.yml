@@ -30,5 +30,7 @@ runs:
       shell: bash
     - run: npm install @actions/github
       shell: bash
+    - run: ls
+      shell: bash
     - run: node index.js
       shell: bash
