@@ -41,7 +41,7 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           project_id: ${{ vars.GCP_KYMA_PROJECT_PROJECT_ID }}
-          workload_identity_provider: ${{ vars.GH_TOOLS_SAP_KYMA_PROJECT_GCP_WORKLOAD_IDENTITY_FEDERATION_PROVIDER }}
+          workload_identity_provider: ${{ vars.GH_COM_KYMA_PROJECT_GCP_WORKLOAD_IDENTITY_FEDERATION_PROVIDER }}
       
       - name: Get ADO PAT from Secret Manager
         id: 'secrets'
